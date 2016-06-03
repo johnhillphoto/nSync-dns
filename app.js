@@ -1,15 +1,15 @@
-try {
-    var keys = require('./keys.js');
-}
+// try {
+//     var keys = require('./keys.js');
+// }
 // catch (e) {
 //     if (e instanceof Error && e.code === "MODULE_NOT_FOUND")
 //         console.log("Can't load keys!");
 //     else
 //         throw e;
 // }
-catch (e) {
-        console.log(e);
-}
+// catch (e) {
+//         console.log(e);
+// }
 var keyId = keys.AWS_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
 var secretKey = keys.AWS_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
 var bucket = keys.S3_BUCKET_NAME || process.env.S3_BUCKET_NAME;
@@ -17,7 +17,7 @@ var express = require('express');
 var AWS = require('aws-sdk');
 AWS.config.update({accessKeyId: keyId, secretAccessKey: secretKey});
 // var bodyParser = require('body-parser');
-var path = require('path');
+// var path = require('path');
 var awsPromised = require('aws-promised');
 var s3 = awsPromised.s3();
 
