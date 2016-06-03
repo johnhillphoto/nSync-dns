@@ -1,0 +1,21 @@
+{
+  "name": "nsync-dns",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-promised": "^2.13.0",
+    "aws-sdk": "^2.3.16",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+  },
+  "directories": {
+    "test": "test"
+  }
+}
