@@ -10,9 +10,9 @@
 // catch (e) {
 //         console.log(e);
 // }
-var keyId = keys.AWS_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
-var secretKey = keys.AWS_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
-var bucket = keys.S3_BUCKET_NAME || process.env.S3_BUCKET_NAME;
+var keyId = process.env.AWS_ACCESS_KEY_ID || keys.AWS_ACCESS_KEY_ID;
+var secretKey = process.env.AWS_SECRET_ACCESS_KEY || keys.AWS_SECRET_ACCESS_KEY;
+var bucket = process.env.S3_BUCKET_NAME || keys.S3_BUCKET_NAME;
 var express = require('express');
 var AWS = require('aws-sdk');
 AWS.config.update({accessKeyId: keyId, secretAccessKey: secretKey});
