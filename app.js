@@ -1,4 +1,17 @@
-var keys = require('./keys.js');
+try {
+    // var foo = require("foo");
+    var keys = require('./keys.js');
+}
+catch (e) {
+    if (e instanceof Error && e.code === "MODULE_NOT_FOUND")
+        console.log("Can't load keys!");
+    else
+        throw e;
+}
+
+
+
+
 var keyId = keys.AWS_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
 var secretKey = keys.AWS_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
 var bucket = keys.S3_BUCKET_NAME || process.env.S3_BUCKET_NAME;
@@ -27,7 +40,6 @@ app.get('/', function(req, res, next){
 });
 
 app.put('/', function(req, res, next){
-
   var s3bucket = new AWS.S3({params: {Bucket: bucket}});
   s3bucket.createBucket(function() {
     var params = {Key: 'address.txt', Body: req.query.photo_serve};
