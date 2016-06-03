@@ -1,14 +1,12 @@
 try {
+    // var foo = require("foo");
     var keys = require('./keys.js');
 }
-// catch (e) {
-//     if (e instanceof Error && e.code === "MODULE_NOT_FOUND")
-//         console.log("Can't load keys!");
-//     else
-//         throw e;
-// }
 catch (e) {
-        console.log(e);
+    if (e instanceof Error && e.code === "MODULE_NOT_FOUND")
+        console.log("Can't load keys!");
+    else
+        throw e;
 }
 var keyId = keys.AWS_ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
 var secretKey = keys.AWS_SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
@@ -23,8 +21,6 @@ var s3 = awsPromised.s3();
 
 var app = express();
 
-var dataObject = {photoIP: '0.0.0.0.p', socketIP: '0.0.0.0.s'};
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -34,40 +30,30 @@ app.use(function(req, res, next) {
 app.get('/', function(req, res, next){
   var s3Params = {
       Bucket: bucket,
-      Key: 'address.json'
+      Key: 'address.txt'
   };
   s3.getObjectPromised(s3Params)
   .then(function(data){
-    var addressNums = data.Body.toString('utf8');
-    console.log("sent back",addressNums);
-    res.send(addressNums);
+    var addressNum = data.Body.toString('utf8');
+    console.log("sent back",addressNum);
+    res.send(addressNum);
   })
   .catch(console.error);
 });
 
-function saveBucket(res, type){
+app.put('/', function(req, res, next){
   var s3bucket = new AWS.S3({params: {Bucket: bucket}});
   s3bucket.createBucket(function() {
-    var params = {Key: 'address.json', Body: JSON.stringify(dataObject), ContentType: 'application/json'};
+    var params = {Key: 'address.txt', Body: req.query.photo_serve};
     s3bucket.upload(params, function(err, data) {
       if (err) {
         console.log("Error uploading data: ", err);
       } else {
-          res.send(type + ' Address Written');
-        console.log(type +" IP Successfully uploaded");
+          res.send('Address Written');
+        console.log("Successfully uploaded", req.query.photo_serve);
       }
     });
   });
-}//end saveBucket
-
-app.put('/photo', function(req, res, next){
-  dataObject.photoIP =req.query.photoIP;
-  saveBucket(res, 'Photo');
-});//end photo put
-
-app.put('/socket', function(req, res, next){
-  dataObject.socketIP =req.query.socketIP;
-  saveBucket(res, 'Socket');
-});//end socket put
+});
 
 module.exports = app;
