@@ -1,15 +1,15 @@
-// try {
-//     var keys = require('./keys.js');
-// }
+try {
+    var keys = require('./keys.js');
+}
 // catch (e) {
 //     if (e instanceof Error && e.code === "MODULE_NOT_FOUND")
 //         console.log("Can't load keys!");
 //     else
 //         throw e;
 // }
-// catch (e) {
-//         console.log(e);
-// }
+catch (e) {
+        console.log(e);
+}
 var keyId = process.env.AWS_ACCESS_KEY_ID || keys.AWS_ACCESS_KEY_ID;
 var secretKey = process.env.AWS_SECRET_ACCESS_KEY || keys.AWS_SECRET_ACCESS_KEY;
 var bucket = process.env.S3_BUCKET_NAME || keys.S3_BUCKET_NAME;
