@@ -1,12 +1,6 @@
 try {
     var keys = require('./keys.js');
 }
-// catch (e) {
-//     if (e instanceof Error && e.code === "MODULE_NOT_FOUND")
-//         console.log("Can't load keys!");
-//     else
-//         throw e;
-// }
 catch (e) {
         console.log(e);
 }
@@ -16,8 +10,6 @@ var bucket = process.env.S3_BUCKET_NAME || keys.S3_BUCKET_NAME;
 var express = require('express');
 var AWS = require('aws-sdk');
 AWS.config.update({accessKeyId: keyId, secretAccessKey: secretKey});
-// var bodyParser = require('body-parser');
-// var path = require('path');
 var awsPromised = require('aws-promised');
 var s3 = awsPromised.s3();
 
@@ -30,6 +22,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+// app.use(cors());
+
 
 app.get('/', function(req, res, next){
   var s3Params = {
@@ -60,12 +54,12 @@ function saveBucket(res, type){
   });
 }//end saveBucket
 
-app.put('/photo', function(req, res, next){
+app.post('/photo', function(req, res, next){
   dataObject.photoIP =req.query.photoIP;
   saveBucket(res, 'Photo');
 });//end photo put
 
-app.put('/socket', function(req, res, next){
+app.post('/socket', function(req, res, next){
   dataObject.socketIP =req.query.socketIP;
   saveBucket(res, 'Socket');
 });//end socket put
